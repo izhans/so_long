@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 19:35:08 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/06 01:56:12 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:18:39 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,11 @@ int	ft_validate_components(t_map_data *map)
 				if (map->content[i][j] == MAP_EXIT)
 					map->exit++;
 				else if (map->content[i][j] == MAP_PLAYER)
+				{
 					map->player++;
+					map->player_row = i;
+					map->player_col = j;
+				}
 				else if (map->content[i][j] == MAP_COLLECTIONABLE)
 					map->collectionable++;
 			}
@@ -139,4 +143,25 @@ int	ft_validate_outer_walls(t_map_data *map)
 		i++;
 	}
 	return (0);
+}
+
+void	ft_flood_fill(t_map_data *map, int row, int col)
+{
+	if (row < 0 || col < 0 || row >= map->height || col >= map->width
+		|| map->content[row][col] == MAP_WALL || map->content[row][col] == MAP_VISITED)
+	{
+		return ;
+	}
+	if (map->content[row][col] == MAP_COLLECTIONABLE)
+		map->collectionable--;
+	if (map->content[row][col] == MAP_EXIT)
+		map->exit--;
+	if (map->content[row][col] == MAP_PLAYER)
+		map->player--;
+
+	map->content[row][col] = MAP_VISITED;
+	ft_flood_fill(map, row -1, col); // move up
+	ft_flood_fill(map, row, col +1); // move right
+	ft_flood_fill(map, row +1, col); // move down
+	ft_flood_fill(map, row, col -1); // move left
 }

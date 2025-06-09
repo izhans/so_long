@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/06 01:49:53 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:36:17 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,20 @@ int main(int argc, char *argv[])
 	printf("exit: %d player: %d collectionables: %d\n", map->exit, map->player, map->collectionable);
 
 	if (ft_validate_outer_walls(map))
+	{
+		printf("Falta algun muro rodeando el mapa\n");
 		return (1);
+	}
 
+	t_map_data *map_copy = malloc(sizeof(t_map_data)); // TODO check error
+	ft_memcpy(map_copy, map, sizeof(t_map_data));
+	
+	ft_flood_fill(map_copy, map_copy->player_row, map_copy->player_col);
+	if (map_copy->exit != 0 || map_copy->player != 0 || map_copy->collectionable != 0)
+	{
+		printf("error despues de flood fill - remains exit: %d player: %d collectionables: %d\n", map_copy->exit, map_copy->player, map_copy->collectionable);
+		return (1);
+	}
 	
 	printf("mapa bien\n");
 	// free map + map data
