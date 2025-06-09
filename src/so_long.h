@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/09 19:14:48 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:08:26 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # define SO_LONG_H
 
 # include "../libft/libft.h"
-# include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
+# include "../mlx_linux/mlx.h"
+# include "../mlx_linux/mlx_int.h"
 
 # define MAP_COMPONENTS "01CEP"
 # define MAP_EXIT 'E'
