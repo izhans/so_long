@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/10 01:08:26 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:52:03 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int	ft_validate_and_get_map_width(char **map, int map_height);
 int	ft_validate_components(t_map_data *map);
 int	ft_validate_outer_walls(t_map_data *map);
 void	ft_flood_fill(t_map_data *map, int row, int col);
+void	ft_free_map_struct(t_map_data *map);
 
 #endif

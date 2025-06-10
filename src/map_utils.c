@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 19:35:08 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/09 19:18:39 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:51:33 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**ft_save_map_content(char *map_file, int map_height)
 	if (map_fd == -1) // ! open error
 		return (NULL);
 	map = malloc((map_height + 1) * sizeof(char *));
-	if (map == NULL) // ! malloc error
+	if (map == NULL) // ! malloc error // TODO close fd
 		return (NULL);
 	int i = 0;
 	while (i < map_height)
@@ -164,4 +164,12 @@ void	ft_flood_fill(t_map_data *map, int row, int col)
 	ft_flood_fill(map, row, col +1); // move right
 	ft_flood_fill(map, row +1, col); // move down
 	ft_flood_fill(map, row, col -1); // move left
+}
+
+void	ft_free_map_struct(t_map_data *map)
+{
+	if (map == NULL)
+		return ;
+	ft_free_str_array(map->content);
+	free(map);
 }
