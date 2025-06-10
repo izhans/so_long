@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:15:24 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:51:04 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,34 @@
 int	ft_file_is_dot_ber(char *file);
 int	ft_init_map(t_map_data	*map, char *map_file);
 void ft_print_error(char *error_msg);
+int ft_handle_key(int keysym, t_game_data *mlx);
+int	ft_end_game(t_game_data *mlx);
 
 int main(int argc, char *argv[])
 {
 	t_map_data	*map;
+	t_game_data	mlx;
 	
 	// check map arg exists + check if .ber
 	if (argc != 2 || !ft_file_is_dot_ber(argv[1]))
 		return (1);
 	
-	map = ft_calloc(1, sizeof(t_map_data));
+	map = ft_calloc(1, sizeof(t_map_data)); // TODO check errors or pass to non dinamic memory
 	if (ft_init_map(map, argv[1]))
 		return (ft_free_map_struct(map), 1);
 	printf("mapa bien\n");
 
+	// TODO check mlx_data creation errors
+	mlx.mlx_instance = mlx_init();
+	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, 1920/2, 1080/2, "so_long");
+	
+	mlx.map = map;
+
+	mlx_key_hook(mlx.mlx_window, ft_handle_key, &mlx);
+	mlx_hook(mlx.mlx_window, MLX_CLOSE_WINDOW_BUTTON, NoEventMask, ft_end_game, &mlx);
+	
+	mlx_loop(mlx.mlx_instance); // ? si no hay ventana se acaba el loop ?
+		
 	// free map + map data
 	ft_free_map_struct(map);
 	return 0;
@@ -88,4 +102,23 @@ void ft_print_error(char *error_msg)
 {
 	printf("Error\n");
 	printf("%s\n", error_msg);
+}
+
+int ft_handle_key(int keysym, t_game_data *mlx)
+{
+	printf("pressed %d\n", keysym);
+	if (keysym == XK_Escape)
+		ft_end_game(mlx);
+	
+	return (0);
+}
+
+int	ft_end_game(t_game_data *mlx)
+{
+	mlx_destroy_window(mlx->mlx_instance, mlx->mlx_window);
+	mlx_destroy_display(mlx->mlx_instance);
+	free(mlx->mlx_instance);
+	ft_free_map_struct(mlx->map);
+	exit(0);
+	return (0);
 }

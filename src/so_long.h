@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/10 10:52:03 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:51:00 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define MAP_WALL '1'
 # define MAP_VISITED '2'
 
+# define MLX_CLOSE_WINDOW_BUTTON 17
+
 typedef struct map_data
 {
 	int	height;
@@ -37,6 +39,13 @@ typedef struct map_data
 	int exit;
 	int collectionable;
 } t_map_data;
+
+typedef struct game_data
+{
+	void		*mlx_instance;
+	void		*mlx_window;
+	t_map_data	*map;
+} t_game_data;
 
 
 int	ft_get_map_height(char *map_file);
