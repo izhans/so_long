@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 18:48:50 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/12 23:46:19 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 # include "../mlx_linux/mlx.h"
 # include "../mlx_linux/mlx_int.h"
 
+// ERROR MSGS
+# define ERROR_MAP_HEIGHT "Map must have at least 3 lines"
+# define ERROR_MAP_SAVE "Error saving map"
+# define ERROR_MAP_WIDTH "Map must be rectangular and at least have 3 columns"
+# define ERROR_MAP_CONTENT "Invalid map content [accepts 01PEC]: there must be \
+						1 player [P], 1 exit [E] and at least 1 collectible [C]"
+# define ERROR_MAP_NOT_SURROUNDED_BY_WALLS "Map must be surrounded walls [1]"
+# define ERROR_MAP_IMPOSSIBLE_WIN "Map is impossible to complete: inaccesible \
+						exit or collectibles"
+
+// MAP COMPONENTS
 # define MAP_COMPONENTS "01CEP"
 # define MAP_EXIT 'E'
 # define MAP_PLAYER 'P'
@@ -26,8 +37,10 @@
 # define MAP_WALL '1'
 # define MAP_VISITED '2'
 
+// MLX EVENTS
 # define MLX_CLOSE_WINDOW_BUTTON 17
 
+// SPRITES
 # define SPRITE_SIDE_PIXELS 48
 # define SPRITE_EXIT "textures/exit.xpm"
 # define SPRITE_COLLECTIBLE "textures/collectable.xpm"
@@ -60,13 +73,25 @@ typedef struct game_data
 	void		*xmp_collectible;
 } t_game_data;
 
-
-int	ft_get_map_height(char *map_file);
-char	**ft_save_map_content(char *map_file, int map_height);
-int	ft_validate_and_get_map_width(char **map, int map_height);
-int	ft_validate_components(t_map_data *map);
-int	ft_validate_outer_walls(t_map_data *map);
-void	ft_flood_fill(t_map_data *map, int row, int col);
+// utils.c
+int		ft_file_is_dot_ber(char *file);
+void	ft_print_error(char *error_msg);
+void	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy);
+int		ft_end_game(t_game_data *mlx);
 void	ft_free_map_struct(t_map_data *map);
+
+// ft_init_map.c
+int		ft_init_map(t_map_data	*map, char *map_file);
+
+// ft_validate_map.c
+int		ft_validate_map(t_map_data	*map);
+
+// ft_flood_fill.c
+int		ft_validate_flood_fill(t_map_data *map);
+
+// sprite_utils.c
+int		ft_open_xpms(t_game_data *game);
+void	ft_close_xpms(t_game_data *game);
+void	ft_put_sprite(t_game_data *game, void *sprite, int i, int j);
 
 #endif

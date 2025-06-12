@@ -3,10 +3,14 @@ NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 
-VPATH = src/:src/map/:
+VPATH = src/:
 
-SRC	=	map_utils.c \
+SRC	=	ft_validate_map.c \
 		so_long.c \
+		utils.c \
+		ft_flood_fill.c \
+		ft_init_map.c \
+		sprite_utils.c
 
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
