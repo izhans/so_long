@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/10 16:51:04 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:18:56 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_file_is_dot_ber(char *file);
 int	ft_init_map(t_map_data	*map, char *map_file);
 void ft_print_error(char *error_msg);
 int ft_handle_key(int keysym, t_game_data *mlx);
+void	ft_paint_map(t_game_data *game);
 int	ft_end_game(t_game_data *mlx);
 
 int main(int argc, char *argv[])
@@ -34,9 +35,21 @@ int main(int argc, char *argv[])
 
 	// TODO check mlx_data creation errors
 	mlx.mlx_instance = mlx_init();
-	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, 1920/2, 1080/2, "so_long");
+	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, map->width * SPRITE_SIDE_PIXELS,
+		map->height * SPRITE_SIDE_PIXELS, "so_long");
 	
 	mlx.map = map;
+
+	mlx.xmp_exit = mlx_xpm_file_to_image(mlx.mlx_instance, SPRITE_EXIT, &mlx.sprite_side, &mlx.sprite_side);
+	mlx.xmp_collectible = mlx_xpm_file_to_image(mlx.mlx_instance, SPRITE_COLLECTIBLE, &mlx.sprite_side, &mlx.sprite_side);
+	mlx.xmp_player = mlx_xpm_file_to_image(mlx.mlx_instance, SPRITE_PLAYER, &mlx.sprite_side, &mlx.sprite_side);
+	mlx.xmp_wall = mlx_xpm_file_to_image(mlx.mlx_instance, SPRITE_WALL, &mlx.sprite_side, &mlx.sprite_side);
+	mlx.xmp_floor = mlx_xpm_file_to_image(mlx.mlx_instance, SPRITE_FLOOR, &mlx.sprite_side, &mlx.sprite_side);
+
+	if (mlx.xmp_exit == NULL)
+		return (ft_print_error("Error al pasar el xmp de exit"), 1);
+
+	ft_paint_map(&mlx);
 
 	mlx_key_hook(mlx.mlx_window, ft_handle_key, &mlx);
 	mlx_hook(mlx.mlx_window, MLX_CLOSE_WINDOW_BUTTON, NoEventMask, ft_end_game, &mlx);
@@ -111,6 +124,37 @@ int ft_handle_key(int keysym, t_game_data *mlx)
 		ft_end_game(mlx);
 	
 	return (0);
+}
+
+void	ft_paint_map(t_game_data *game)
+{
+	printf("ft_paint_map\n");
+	int		i;
+	int		j;
+	char	**map = game->map->content;
+
+	i = 0;
+	while (i < game->map->height)
+	{
+		j = 0;
+		while (j < game->map->width)
+		{
+			if (map[i][j] == MAP_EXIT)
+				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_exit, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
+			else if (map[i][j] == MAP_WALL)
+				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_wall, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
+			else if (map[i][j] == MAP_EMPTY)
+				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_floor, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
+			else if (map[i][j] == MAP_PLAYER)
+				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_player, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
+			else if (map[i][j] == MAP_COLLECTIBLE)
+				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_collectible, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
+			j++;
+		}
+		i++;
+	}
+	
+	
 }
 
 int	ft_end_game(t_game_data *mlx)

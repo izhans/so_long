@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 19:35:08 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/10 10:51:33 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:18:35 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ft_validate_components(t_map_data *map)
 					map->player_row = i;
 					map->player_col = j;
 				}
-				else if (map->content[i][j] == MAP_COLLECTIONABLE)
+				else if (map->content[i][j] == MAP_COLLECTIBLE)
 					map->collectionable++;
 			}
 			else
@@ -152,7 +152,7 @@ void	ft_flood_fill(t_map_data *map, int row, int col)
 	{
 		return ;
 	}
-	if (map->content[row][col] == MAP_COLLECTIONABLE)
+	if (map->content[row][col] == MAP_COLLECTIBLE)
 		map->collectionable--;
 	if (map->content[row][col] == MAP_EXIT)
 		map->exit--;

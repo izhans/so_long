@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/10 16:51:00 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:18:48 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@
 # define MAP_COMPONENTS "01CEP"
 # define MAP_EXIT 'E'
 # define MAP_PLAYER 'P'
-# define MAP_COLLECTIONABLE 'C'
+# define MAP_COLLECTIBLE 'C'
 # define MAP_EMPTY '0'
 # define MAP_WALL '1'
 # define MAP_VISITED '2'
 
 # define MLX_CLOSE_WINDOW_BUTTON 17
+
+# define SPRITE_SIDE_PIXELS 48
+# define SPRITE_EXIT "textures/exit.xpm"
+# define SPRITE_COLLECTIBLE "textures/collectable.xpm"
+# define SPRITE_FLOOR "textures/floor3.xpm"
+# define SPRITE_PLAYER "textures/pj1.xpm"
+# define SPRITE_WALL "textures/sprite1.xpm"
 
 typedef struct map_data
 {
@@ -45,6 +52,12 @@ typedef struct game_data
 	void		*mlx_instance;
 	void		*mlx_window;
 	t_map_data	*map;
+	int			sprite_side;
+	void		*xmp_exit;
+	void		*xmp_floor;
+	void		*xmp_player;
+	void		*xmp_wall;
+	void		*xmp_collectible;
 } t_game_data;
 
 
