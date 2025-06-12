@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 18:18:56 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:46:36 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
 
 	// TODO check mlx_data creation errors
 	mlx.mlx_instance = mlx_init();
-	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, map->width * SPRITE_SIDE_PIXELS,
-		map->height * SPRITE_SIDE_PIXELS, "so_long");
+	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, map->height * SPRITE_SIDE_PIXELS,
+		map->width * SPRITE_SIDE_PIXELS, "so_long");
 	
 	mlx.map = map;
 
@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
 	mlx_hook(mlx.mlx_window, MLX_CLOSE_WINDOW_BUTTON, NoEventMask, ft_end_game, &mlx);
 	
 	mlx_loop(mlx.mlx_instance); // ? si no hay ventana se acaba el loop ?
-		
-	// free map + map data
+	
+	// free map + map data + destroy images
 	ft_free_map_struct(map);
 	return 0;
 }
@@ -71,7 +71,7 @@ int	ft_file_is_dot_ber(char *file)
 
 int	ft_init_map(t_map_data	*map, char *map_file)
 {
-	t_map_data	map_copy;
+	t_map_data	*map_copy;
 
 	// count map lines
 	map->height = ft_get_map_height(map_file);
@@ -99,15 +99,33 @@ int	ft_init_map(t_map_data	*map, char *map_file)
 	if (ft_validate_outer_walls(map))
 		return (ft_print_error("Invalid map: missing surrounding walls"), 1);
 	
-	// make copy for flood fill
-	map_copy = *map;
-	ft_flood_fill(&map_copy, map_copy.player_row, map_copy.player_col);
-	if (map_copy.exit != 0 || map_copy.player != 0 || map_copy.collectionable != 0)
+	// copy for flood fill
+	map_copy = ft_calloc(1, sizeof(t_map_data));
+	map_copy->exit = map->exit;
+	map_copy->player = map->player;
+	map_copy->collectionable = map->collectionable;
+	map_copy->height = map->height;
+	map_copy->width = map->width;
+
+	int i = 0;
+	map_copy->content = malloc((map->height + 1) * sizeof(char *));
+	while (i < map->height)
 	{
-		printf("error despues de flood fill - remains exit: %d player: %d collectionables: %d\n", map_copy.exit, map_copy.player, map_copy.collectionable);
+		map_copy->content[i] = ft_strdup(map->content[i]);
+		// if (map_copy->content[i] == NULL) // TODO error
+		// 	ft_free_str_array(map_copy->content);
+		i++;
+	}
+	map_copy->content[i] = NULL;
+
+	ft_flood_fill(map_copy, map->player_row, map->player_col);
+	if (map_copy->exit != 0 || map_copy->player != 0 || map_copy->collectionable != 0)
+	{
+		printf("error despues de flood fill - remains exit: %d player: %d collectionables: %d\n", map_copy->exit, map_copy->player, map_copy->collectionable);
 		return (ft_print_error("Inaccesible exit or collectibles"), 1);
 	}
 
+	map->content[map->player_row][map->player_col] = MAP_EMPTY;
 	return (0);
 }
 
@@ -119,16 +137,26 @@ void ft_print_error(char *error_msg)
 
 int ft_handle_key(int keysym, t_game_data *mlx)
 {
+	// TODO gestionar paredes, recoger colleccionables y acabar en la salida
 	printf("pressed %d\n", keysym);
 	if (keysym == XK_Escape)
 		ft_end_game(mlx);
-	
+	else if (keysym == XK_Down)
+		mlx->map->player_col++;
+	else if (keysym == XK_Up)
+		mlx->map->player_col--;
+	else if (keysym == XK_Left)
+		mlx->map->player_row--;
+	else if (keysym == XK_Right)
+		mlx->map->player_row++;
+	ft_paint_map(mlx);
 	return (0);
 }
 
 void	ft_paint_map(t_game_data *game)
 {
 	printf("ft_paint_map\n");
+	printf("player i:%d j:%d\n", game->map->player_row, game->map->player_col);
 	int		i;
 	int		j;
 	char	**map = game->map->content;
@@ -139,14 +167,14 @@ void	ft_paint_map(t_game_data *game)
 		j = 0;
 		while (j < game->map->width)
 		{
-			if (map[i][j] == MAP_EXIT)
+			if (i == game->map->player_row && j == game->map->player_col)
+				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_player, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
+			else if (map[i][j] == MAP_EXIT)
 				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_exit, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
 			else if (map[i][j] == MAP_WALL)
 				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_wall, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
 			else if (map[i][j] == MAP_EMPTY)
 				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_floor, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
-			else if (map[i][j] == MAP_PLAYER)
-				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_player, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
 			else if (map[i][j] == MAP_COLLECTIBLE)
 				mlx_put_image_to_window(game->mlx_instance, game->mlx_window, game->xmp_collectible, i * SPRITE_SIDE_PIXELS, j * SPRITE_SIDE_PIXELS);
 			j++;
