@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 23:39:02 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 00:41:58 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int ft_handle_key(int keysym, t_game_data *mlx);
 void	ft_paint_map(t_game_data *game);
+void	ft_move(t_map_data *map, int row, int col, t_game_data *game);
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
 		map->width * SPRITE_SIDE_PIXELS, "so_long");
 	
 	mlx.map = map;
-	
+	mlx.movs = 0;
 	if (!ft_open_xpms(&mlx))
 		return (ft_print_error("Error al abrir algun xmp"), 1);
 
@@ -53,20 +54,39 @@ int main(int argc, char *argv[])
 
 int ft_handle_key(int keysym, t_game_data *mlx)
 {
-	// TODO gestionar paredes, recoger colleccionables y acabar en la salida
-	printf("pressed %d\n", keysym);
 	if (keysym == XK_Escape)
 		ft_end_game(mlx);
 	else if (keysym == XK_Down)
-		mlx->map->player_col++;
+		ft_move(mlx->map, 0, 1, mlx);
 	else if (keysym == XK_Up)
-		mlx->map->player_col--;
+		ft_move(mlx->map, 0, -1, mlx);
 	else if (keysym == XK_Left)
-		mlx->map->player_row--;
+		ft_move(mlx->map, -1, 0, mlx);
 	else if (keysym == XK_Right)
-		mlx->map->player_row++;
+		ft_move(mlx->map, 1, 0, mlx);
 	ft_paint_map(mlx);
+	printf("movs %d\n", mlx->movs);
 	return (0);
+}
+
+void	ft_move(t_map_data *map, int row, int col, t_game_data *game)
+{
+	char	tile;
+	if (map->content[map->player_row + row][map->player_col + col] == MAP_WALL)
+		return ;
+	map->player_row += row; 
+	map->player_col += col;
+	tile = map->content[map->player_row][map->player_col];
+	if (tile == MAP_COLLECTIBLE)
+	{
+		map->content[map->player_row][map->player_col] = MAP_EMPTY;
+		map->collectionable--;
+	}
+	else if (tile == MAP_EXIT && map->collectionable == 0)
+	{
+		ft_end_game(game);
+	}
+	game->movs++;
 }
 
 void	ft_paint_map(t_game_data *game)

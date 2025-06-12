@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 23:46:19 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 00:39:58 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct game_data
 	void		*xmp_player;
 	void		*xmp_wall;
 	void		*xmp_collectible;
+	int			movs;
 } t_game_data;
 
 // utils.c
