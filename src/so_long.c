@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 00:41:58 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 02:29:30 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
 
 	// TODO check mlx_data creation errors
 	mlx.mlx_instance = mlx_init();
-	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, map->height * SPRITE_SIDE_PIXELS,
-		map->width * SPRITE_SIDE_PIXELS, "so_long");
+	mlx.mlx_window = mlx_new_window(mlx.mlx_instance, map->width * SPRITE_SIDE_PIXELS,
+		map->height * SPRITE_SIDE_PIXELS, "so_long");
 	
 	mlx.map = map;
 	mlx.movs = 0;
@@ -45,10 +45,7 @@ int main(int argc, char *argv[])
 	mlx_key_hook(mlx.mlx_window, ft_handle_key, &mlx);
 	mlx_hook(mlx.mlx_window, MLX_CLOSE_WINDOW_BUTTON, NoEventMask, ft_end_game, &mlx);
 	
-	mlx_loop(mlx.mlx_instance); // ? si no hay ventana se acaba el loop ?
-	
-	// free map + map data + destroy images
-	ft_free_map_struct(map); // this is never actually executed
+	mlx_loop(mlx.mlx_instance);
 	return 0;
 }
 
@@ -57,15 +54,14 @@ int ft_handle_key(int keysym, t_game_data *mlx)
 	if (keysym == XK_Escape)
 		ft_end_game(mlx);
 	else if (keysym == XK_Down)
-		ft_move(mlx->map, 0, 1, mlx);
-	else if (keysym == XK_Up)
-		ft_move(mlx->map, 0, -1, mlx);
-	else if (keysym == XK_Left)
-		ft_move(mlx->map, -1, 0, mlx);
-	else if (keysym == XK_Right)
 		ft_move(mlx->map, 1, 0, mlx);
+	else if (keysym == XK_Up)
+		ft_move(mlx->map, -1, 0, mlx);
+	else if (keysym == XK_Left)
+		ft_move(mlx->map, 0, -1, mlx);
+	else if (keysym == XK_Right)
+		ft_move(mlx->map, 0, 1, mlx);
 	ft_paint_map(mlx);
-	printf("movs %d\n", mlx->movs);
 	return (0);
 }
 
@@ -83,16 +79,13 @@ void	ft_move(t_map_data *map, int row, int col, t_game_data *game)
 		map->collectionable--;
 	}
 	else if (tile == MAP_EXIT && map->collectionable == 0)
-	{
 		ft_end_game(game);
-	}
 	game->movs++;
+	printf("movs %d\n", game->movs);
 }
 
 void	ft_paint_map(t_game_data *game)
 {
-	printf("ft_paint_map\n");
-	printf("player i:%d j:%d\n", game->map->player_row, game->map->player_col);
 	int		i;
 	int		j;
 	char	**map;

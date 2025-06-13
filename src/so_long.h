@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 00:39:58 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 01:27:37 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define SPRITE_EXIT "textures/exit.xpm"
 # define SPRITE_COLLECTIBLE "textures/collectable.xpm"
 # define SPRITE_FLOOR "textures/floor3.xpm"
-# define SPRITE_PLAYER "textures/pj1.xpm"
+# define SPRITE_PLAYER "textures/pj3.xpm"
 # define SPRITE_WALL "textures/block.xpm"
 
 typedef struct map_data

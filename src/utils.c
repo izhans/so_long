@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:51:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 23:26:43 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 01:27:31 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ void	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
 	map_copy->content[i] = NULL;
 }
 
-// TODO hay que liberar más cosas y destruir imagenes y tal
-// TODO ver si con acabar el mlx_loop sirve y liberar todo despues
 int	ft_end_game(t_game_data *mlx)
 {
+	ft_close_xpms(mlx);
 	mlx_destroy_window(mlx->mlx_instance, mlx->mlx_window);
 	mlx_destroy_display(mlx->mlx_instance);
 	free(mlx->mlx_instance);
 	ft_free_map_struct(mlx->map);
-	// ft_close_xpms(mlx); // TODO currently segfaults
-
 	exit(0);
 	return (0);
 }
