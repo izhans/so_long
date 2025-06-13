@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 05:09:24 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:28:28 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@
 # define ERROR_MAP_SAVE "Error saving map"
 # define ERROR_MAP_WIDTH "Map must be rectangular and at least have 3 columns"
 # define ERROR_MAP_CONTENT "Invalid map content [accepts 01PEC]: there must be \
-						1 player [P], 1 exit [E] and at least 1 collectible [C]"
+1 player [P], 1 exit [E] and at least 1 collectible [C]"
 # define ERROR_MAP_NOT_SURROUNDED_BY_WALLS "Map must be surrounded walls [1]"
 # define ERROR_MAP_IMPOSSIBLE_WIN "Map is impossible to complete: inaccesible \
-						exit or collectibles"
+exit or collectibles"
+# define ERROR_MAP_TOO_BIG "The map cannot be displayed because is bigger than \
+the screen"
+# define ERROR_OPEN_XPM "Error while opening a sprite"
 # define ERROR_MALLOC "Error while allocating memory"
 
 // MAP COMPONENTS
@@ -81,6 +84,7 @@ void	ft_print_error(char *error_msg);
 int		ft_make_map_copy(t_map_data	*map, t_map_data *map_copy);
 int		ft_end_game(t_game_data *mlx);
 void	ft_free_map_struct(t_map_data *map);
+void	ft_init_game_struct(t_game_data *game, t_map_data **map);
 
 // ft_init_map.c
 int		ft_init_map(t_map_data *map, char *map_file);

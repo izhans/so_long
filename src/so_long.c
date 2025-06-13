@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 05:17:10 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:29:03 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,28 @@ int main(int argc, char *argv[])
 	if (map == NULL)
 		return (ft_print_error(ERROR_MALLOC), 1);
 	// init + validate map
-	if (ft_init_map(map, argv[1]) || ft_validate_map(map))
+	if (ft_init_map(map, argv[1]))
 		return (ft_free_map_struct(map), 1);
-
+		
 	// TODO check mlx_data creation errors
+	ft_init_game_struct(&game, &map);
 	game.mlx_instance = mlx_init();
-	// ft_handle_max_map_size(&game);
+	
+	ft_handle_max_map_size(&game);
+	
+	if (ft_validate_map(game.map))
+		return (ft_free_map_struct(game.map), 1);
+	printf("w%d h%d p%d c%d e%d pr%d pc%d\n", map->width, map->height, map->player, map->collectionable, map->exit, map->player_row, map->player_col);
+	
 	printf("map size2 x:%d y:%d\n", game.map->width * SPRITE_SIDE_PIXELS, game.map->height * SPRITE_SIDE_PIXELS);
 	game.mlx_window = mlx_new_window(game.mlx_instance, map->width * SPRITE_SIDE_PIXELS,
 			map->height * SPRITE_SIDE_PIXELS, "so_long");
 	
-	game.map = map;
-	game.movs = 0;
 	if (!ft_open_xpms(&game))
-		return (ft_print_error("Error al abrir algun xmp"), 1);
+	{
+		ft_print_error(ERROR_OPEN_XPM);
+		ft_end_game(&game);
+	}
 
 	ft_paint_map(&game);
 
@@ -65,7 +73,10 @@ void	ft_handle_max_map_size(t_game_data *game)
 	
 	if (game->map->width * SPRITE_SIDE_PIXELS > x
 		|| game->map->height * SPRITE_SIDE_PIXELS > y)
+	{
+		ft_print_error(ERROR_MAP_TOO_BIG);
 		ft_end_game(game);
+	}
 }
 
 int	ft_handle_key(int keysym, t_game_data *game)

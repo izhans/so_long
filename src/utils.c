@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:51:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 05:07:01 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:32:51 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,13 @@ int	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
 int	ft_end_game(t_game_data *mlx)
 {
 	ft_close_xpms(mlx);
-	mlx_destroy_window(mlx->mlx_instance, mlx->mlx_window);
-	mlx_destroy_display(mlx->mlx_instance);
-	free(mlx->mlx_instance);
+	if (mlx->mlx_window)
+		mlx_destroy_window(mlx->mlx_instance, mlx->mlx_window);
+	if (mlx->mlx_instance)
+	{
+		mlx_destroy_display(mlx->mlx_instance);
+		free(mlx->mlx_instance);
+	}
 	ft_free_map_struct(mlx->map);
 	exit(0);
 	return (0);
@@ -67,4 +71,18 @@ void	ft_free_map_struct(t_map_data *map)
 		return ;
 	ft_free_str_array(map->content);
 	free(map);
+}
+
+void	ft_init_game_struct(t_game_data *game, t_map_data **map)
+{
+	game->map = *map;
+	game->mlx_instance = NULL;
+	game->mlx_window = NULL;
+	game->movs = 0;
+	game->sprite_side = SPRITE_SIDE_PIXELS;
+	game->xpm_collectible = NULL;
+	game->xpm_exit = NULL;
+	game->xpm_floor = NULL;
+	game->xpm_player = NULL;
+	game->xpm_wall = NULL;
 }
