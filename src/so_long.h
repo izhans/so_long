@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 20:39:18 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:04:28 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ exit or collectibles"
 # define ERROR_MAP_TOO_BIG "The map cannot be displayed because is bigger than \
 the screen"
 # define ERROR_OPEN_XPM "Error while opening a sprite"
+# define ERROR_OPEN_MAP "Error while opening the map file"
 # define ERROR_MALLOC "Error while allocating memory"
 # define ERROR_ARGV "Use ./so_long <map_name>.ber"
 
