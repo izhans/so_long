@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:37:41 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 22:33:03 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 03:00:35 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_validate_and_get_map_width(char **map, int map_height);
 /**
  * @return 1 if error, 0 if map is initalized correctly
  */
-int	ft_init_map(t_map_data	*map, char *map_file)
+int	ft_init_map(t_map_data *map, char *map_file)
 {
 	// count map lines
 	map->height = ft_get_map_height(map_file);
@@ -35,7 +35,6 @@ int	ft_init_map(t_map_data	*map, char *map_file)
 	map->width = ft_validate_and_get_map_width(map->content, map->height);
 	if (map->width < 3)
 		return (ft_print_error(ERROR_MAP_WIDTH), 1);
-	
 	return (0);
 }
 
@@ -115,7 +114,6 @@ static int	ft_validate_and_get_map_width(char **map, int map_height)
 	map_width = ft_strlen(map[i]);
 	while (i < map_height)
 	{
-		printf("%s\n", map[i]); // TODO delete
 		if (ft_strlen(map[i]) != map_width) // TODO free map content			
 			return (0);
 		i++;

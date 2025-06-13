@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 01:27:37 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 03:01:53 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define ERROR_MAP_NOT_SURROUNDED_BY_WALLS "Map must be surrounded walls [1]"
 # define ERROR_MAP_IMPOSSIBLE_WIN "Map is impossible to complete: inaccesible \
 						exit or collectibles"
+# define ERROR_MALLOC "Error while allocating memory"
 
 // MAP COMPONENTS
 # define MAP_COMPONENTS "01CEP"
@@ -50,15 +51,15 @@
 
 typedef struct map_data
 {
-	int	height;
-	int width;
-	char **content;
-	int player;
-	int player_row;
-	int player_col;
-	int exit;
-	int collectionable;
-} t_map_data;
+	int		height;
+	int		width;
+	char	**content;
+	int		player;
+	int		player_row;
+	int		player_col;
+	int		exit;
+	int		collectionable;
+}	t_map_data;
 
 typedef struct game_data
 {
@@ -72,7 +73,7 @@ typedef struct game_data
 	void		*xmp_wall;
 	void		*xmp_collectible;
 	int			movs;
-} t_game_data;
+}	t_game_data;
 
 // utils.c
 int		ft_file_is_dot_ber(char *file);
@@ -82,7 +83,7 @@ int		ft_end_game(t_game_data *mlx);
 void	ft_free_map_struct(t_map_data *map);
 
 // ft_init_map.c
-int		ft_init_map(t_map_data	*map, char *map_file);
+int		ft_init_map(t_map_data *map, char *map_file);
 
 // ft_validate_map.c
 int		ft_validate_map(t_map_data	*map);
