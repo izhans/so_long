@@ -6,12 +6,11 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:51:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 01:27:31 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 05:07:01 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
 
 int	ft_file_is_dot_ber(char *file)
 {
@@ -27,7 +26,7 @@ void	ft_print_error(char *error_msg)
 	printf("%s\n", error_msg);
 }
 
-void	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
+int	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
 {
 	int	i;
 
@@ -36,15 +35,19 @@ void	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
 	map_copy->collectionable = map->collectionable;
 	map_copy->height = map->height;
 	map_copy->width = map->width;
-
 	i = 0;
-	map_copy->content = malloc((map->height + 1) * sizeof(char *)); // TODO error
+	map_copy->content = malloc((map->height + 1) * sizeof(char *));
+	if (map_copy->content == NULL)
+		return (1);
 	while (i < map->height)
 	{
-		map_copy->content[i] = ft_strdup(map->content[i]); // TODO error
+		map_copy->content[i] = ft_strdup(map->content[i]);
+		if (map_copy->content[i] == NULL)
+			return (1);
 		i++;
 	}
 	map_copy->content[i] = NULL;
+	return (0);
 }
 
 int	ft_end_game(t_game_data *mlx)

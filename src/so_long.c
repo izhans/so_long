@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 03:07:47 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 05:17:10 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	// TODO check mlx_data creation errors
 	game.mlx_instance = mlx_init();
 	// ft_handle_max_map_size(&game);
-	// printf("map size2 x:%d y:%d\n", game.map->width * SPRITE_SIDE_PIXELS, game.map->height * SPRITE_SIDE_PIXELS);
+	printf("map size2 x:%d y:%d\n", game.map->width * SPRITE_SIDE_PIXELS, game.map->height * SPRITE_SIDE_PIXELS);
 	game.mlx_window = mlx_new_window(game.mlx_instance, map->width * SPRITE_SIDE_PIXELS,
 			map->height * SPRITE_SIDE_PIXELS, "so_long");
 	
@@ -118,15 +118,15 @@ void	ft_paint_map(t_game_data *game)
 		while (j < game->map->width)
 		{
 			if (i == game->map->player_row && j == game->map->player_col)
-				ft_put_sprite(game, game->xmp_player, i, j);
+				ft_put_sprite(game, game->xpm_player, i, j);
 			else if (map[i][j] == MAP_EXIT)
-				ft_put_sprite(game, game->xmp_exit, i, j);
+				ft_put_sprite(game, game->xpm_exit, i, j);
 			else if (map[i][j] == MAP_WALL)
-				ft_put_sprite(game, game->xmp_wall, i, j);
+				ft_put_sprite(game, game->xpm_wall, i, j);
 			else if (map[i][j] == MAP_EMPTY)
-				ft_put_sprite(game, game->xmp_floor, i, j);
+				ft_put_sprite(game, game->xpm_floor, i, j);
 			else if (map[i][j] == MAP_COLLECTIBLE)
-				ft_put_sprite(game, game->xmp_collectible, i, j);
+				ft_put_sprite(game, game->xpm_collectible, i, j);
 			j++;
 		}
 		i++;

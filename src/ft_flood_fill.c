@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:16:34 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 23:10:01 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 05:07:23 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ static void	ft_flood_fill(t_map_data *map, int row, int col);
 /**
  * @brief creates a copy of the map, runs flood_fill 
  * 		and checks if the map can be won
- * @return 1 if map is valid, 0 if invalid
+ * @return 1 if map is valid, 0 if invalid or error
  */
 int	ft_validate_flood_fill(t_map_data *map)
 {
 	t_map_data	map_copy;
 
-	ft_make_map_copy(map, &map_copy);
+	if (ft_make_map_copy(map, &map_copy))
+		return (0);
 	ft_flood_fill(&map_copy, map->player_row, map->player_col);
 	ft_free_str_array(map_copy.content);
 	return (map_copy.exit == 0 && map_copy.player == 0

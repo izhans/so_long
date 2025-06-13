@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 03:01:53 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 05:09:24 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ typedef struct game_data
 	void		*mlx_window;
 	t_map_data	*map;
 	int			sprite_side;
-	void		*xmp_exit;
-	void		*xmp_floor;
-	void		*xmp_player;
-	void		*xmp_wall;
-	void		*xmp_collectible;
+	void		*xpm_exit;
+	void		*xpm_floor;
+	void		*xpm_player;
+	void		*xpm_wall;
+	void		*xpm_collectible;
 	int			movs;
 }	t_game_data;
 
 // utils.c
 int		ft_file_is_dot_ber(char *file);
 void	ft_print_error(char *error_msg);
-void	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy);
+int		ft_make_map_copy(t_map_data	*map, t_map_data *map_copy);
 int		ft_end_game(t_game_data *mlx);
 void	ft_free_map_struct(t_map_data *map);
 
