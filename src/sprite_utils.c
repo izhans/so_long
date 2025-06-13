@@ -6,13 +6,13 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 23:12:25 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 05:09:20 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:01:49 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_open_xpms(t_game_data *game)
+void	ft_open_xpms(t_game_data *game)
 {
 	game->xpm_exit = mlx_xpm_file_to_image(game->mlx_instance, SPRITE_EXIT,
 			&game->sprite_side, &game->sprite_side);
@@ -24,9 +24,13 @@ int	ft_open_xpms(t_game_data *game)
 			&game->sprite_side, &game->sprite_side);
 	game->xpm_floor = mlx_xpm_file_to_image(game->mlx_instance, SPRITE_FLOOR,
 			&game->sprite_side, &game->sprite_side);
-	return (game->xpm_exit != NULL && game->xpm_collectible != NULL
-		&& game->xpm_player != NULL && game->xpm_wall != NULL
-		&& game->xpm_floor != NULL);
+	if (game->xpm_exit == NULL || game->xpm_collectible == NULL
+		|| game->xpm_player == NULL || game->xpm_wall == NULL
+		|| game->xpm_floor == NULL)
+	{
+		ft_print_error(ERROR_OPEN_XPM);
+		ft_end_game(game);
+	}
 }
 
 void	ft_close_xpms(t_game_data *game)

@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:51:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 19:32:51 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:30:26 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,6 @@ void	ft_print_error(char *error_msg)
 {
 	printf("Error\n");
 	printf("%s\n", error_msg);
-}
-
-int	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
-{
-	int	i;
-
-	map_copy->exit = map->exit;
-	map_copy->player = map->player;
-	map_copy->collectionable = map->collectionable;
-	map_copy->height = map->height;
-	map_copy->width = map->width;
-	i = 0;
-	map_copy->content = malloc((map->height + 1) * sizeof(char *));
-	if (map_copy->content == NULL)
-		return (1);
-	while (i < map->height)
-	{
-		map_copy->content[i] = ft_strdup(map->content[i]);
-		if (map_copy->content[i] == NULL)
-			return (1);
-		i++;
-	}
-	map_copy->content[i] = NULL;
-	return (0);
 }
 
 int	ft_end_game(t_game_data *mlx)
@@ -76,7 +52,6 @@ void	ft_free_map_struct(t_map_data *map)
 void	ft_init_game_struct(t_game_data *game, t_map_data **map)
 {
 	game->map = *map;
-	game->mlx_instance = NULL;
 	game->mlx_window = NULL;
 	game->movs = 0;
 	game->sprite_side = SPRITE_SIDE_PIXELS;
@@ -85,4 +60,7 @@ void	ft_init_game_struct(t_game_data *game, t_map_data **map)
 	game->xpm_floor = NULL;
 	game->xpm_player = NULL;
 	game->xpm_wall = NULL;
+	game->mlx_instance = mlx_init();
+	if (game->mlx_instance == NULL)
+		ft_end_game(game);
 }

@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 19:29:03 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:37:52 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	
 	// check map arg exists + check if .ber
 	if (argc != 2 || !ft_file_is_dot_ber(argv[1]))
-		return (1);
+		return (ft_print_error(ERROR_ARGV), 1);
 	// alloc map
 	map = ft_calloc(1, sizeof(t_map_data));
 	if (map == NULL)
@@ -33,31 +33,23 @@ int main(int argc, char *argv[])
 	if (ft_init_map(map, argv[1]))
 		return (ft_free_map_struct(map), 1);
 		
-	// TODO check mlx_data creation errors
 	ft_init_game_struct(&game, &map);
-	game.mlx_instance = mlx_init();
-	
 	ft_handle_max_map_size(&game);
 	
 	if (ft_validate_map(game.map))
-		return (ft_free_map_struct(game.map), 1);
+		ft_end_game(&game);
 	printf("w%d h%d p%d c%d e%d pr%d pc%d\n", map->width, map->height, map->player, map->collectionable, map->exit, map->player_row, map->player_col);
-	
-	printf("map size2 x:%d y:%d\n", game.map->width * SPRITE_SIDE_PIXELS, game.map->height * SPRITE_SIDE_PIXELS);
+		
 	game.mlx_window = mlx_new_window(game.mlx_instance, map->width * SPRITE_SIDE_PIXELS,
 			map->height * SPRITE_SIDE_PIXELS, "so_long");
-	
-	if (!ft_open_xpms(&game))
-	{
-		ft_print_error(ERROR_OPEN_XPM);
+	if (game.mlx_window == NULL)
 		ft_end_game(&game);
-	}
-
+	
+	ft_open_xpms(&game);
 	ft_paint_map(&game);
 
 	mlx_key_hook(game.mlx_window, ft_handle_key, &game);
 	mlx_hook(game.mlx_window, MLX_CLOSE_WINDOW_BUTTON, NoEventMask, ft_end_game, &game);
-	
 	mlx_loop(game.mlx_instance);
 	return (0);
 }
@@ -67,10 +59,7 @@ void	ft_handle_max_map_size(t_game_data *game)
 	int	x;
 	int	y;
 
-	mlx_get_screen_size(game->mlx_instance, &x, &y);
-	printf("screen size x:%d y:%d\n", x, y);
-	printf("map size x:%d y:%d\n", game->map->width * SPRITE_SIDE_PIXELS, game->map->height * SPRITE_SIDE_PIXELS);
-	
+	mlx_get_screen_size(game->mlx_instance, &x, &y);	
 	if (game->map->width * SPRITE_SIDE_PIXELS > x
 		|| game->map->height * SPRITE_SIDE_PIXELS > y)
 	{

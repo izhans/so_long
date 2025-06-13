@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 19:28:28 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:39:18 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ exit or collectibles"
 the screen"
 # define ERROR_OPEN_XPM "Error while opening a sprite"
 # define ERROR_MALLOC "Error while allocating memory"
+# define ERROR_ARGV "Use ./so_long <map_name>.ber"
 
 // MAP COMPONENTS
 # define MAP_COMPONENTS "01CEP"
@@ -81,7 +82,6 @@ typedef struct game_data
 // utils.c
 int		ft_file_is_dot_ber(char *file);
 void	ft_print_error(char *error_msg);
-int		ft_make_map_copy(t_map_data	*map, t_map_data *map_copy);
 int		ft_end_game(t_game_data *mlx);
 void	ft_free_map_struct(t_map_data *map);
 void	ft_init_game_struct(t_game_data *game, t_map_data **map);
@@ -96,7 +96,7 @@ int		ft_validate_map(t_map_data	*map);
 int		ft_validate_flood_fill(t_map_data *map);
 
 // sprite_utils.c
-int		ft_open_xpms(t_game_data *game);
+void	ft_open_xpms(t_game_data *game);
 void	ft_close_xpms(t_game_data *game);
 void	ft_put_sprite(t_game_data *game, void *sprite, int i, int j);
 

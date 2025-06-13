@@ -6,12 +6,13 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:16:34 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 05:07:23 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:41:36 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+static int	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy);
 static void	ft_flood_fill(t_map_data *map, int row, int col);
 
 /**
@@ -29,6 +30,36 @@ int	ft_validate_flood_fill(t_map_data *map)
 	ft_free_str_array(map_copy.content);
 	return (map_copy.exit == 0 && map_copy.player == 0
 		&& map_copy.collectionable == 0);
+}
+
+/**
+ * @return 0 if the copy is made, 1 in case of error
+ */
+static int	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
+{
+	int	i;
+
+	map_copy->exit = map->exit;
+	map_copy->player = map->player;
+	map_copy->collectionable = map->collectionable;
+	map_copy->height = map->height;
+	map_copy->width = map->width;
+	i = 0;
+	map_copy->content = malloc((map->height + 1) * sizeof(char *));
+	if (map_copy->content == NULL)
+		return (ft_print_error(ERROR_MALLOC), 1);
+	while (i < map->height)
+	{
+		map_copy->content[i] = ft_strdup(map->content[i]);
+		if (map_copy->content[i] == NULL)
+		{
+			ft_free_map_struct(map_copy);
+			return (ft_print_error(ERROR_MALLOC), 1);
+		}
+		i++;
+	}
+	map_copy->content[i] = NULL;
+	return (0);
 }
 
 /**

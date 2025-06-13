@@ -13,3 +13,7 @@
 - map without .ber extension
 - map file without permissions (open() fail)
 - map with 1 empty line at the end
+## other tests
+- .xmp file does not exists
+- mlx_init fails
+- mlx_new_window fails
