@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 21:04:28 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:58:31 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ the screen"
 # define MAP_WALL '1'
 # define MAP_VISITED '2'
 
-// MLX EVENTS
-# define MLX_CLOSE_WINDOW_BUTTON 17
-
 // SPRITES
 # define SPRITE_SIDE_PIXELS 48
 # define SPRITE_EXIT "textures/exit.xpm"
@@ -54,7 +51,7 @@ the screen"
 # define SPRITE_PLAYER "textures/pj3.xpm"
 # define SPRITE_WALL "textures/block.xpm"
 
-typedef struct map_data
+typedef struct s_map_data
 {
 	int		height;
 	int		width;
@@ -63,15 +60,14 @@ typedef struct map_data
 	int		player_row;
 	int		player_col;
 	int		exit;
-	int		collectionable;
+	int		collectible;
 }	t_map_data;
 
-typedef struct game_data
+typedef struct s_game_data
 {
 	void		*mlx_instance;
 	void		*mlx_window;
 	t_map_data	*map;
-	int			sprite_side;
 	void		*xpm_exit;
 	void		*xpm_floor;
 	void		*xpm_player;
@@ -83,9 +79,9 @@ typedef struct game_data
 // utils.c
 int		ft_file_is_dot_ber(char *file);
 void	ft_print_error(char *error_msg);
+void	ft_init_game_struct(t_game_data *game, t_map_data **map);
 int		ft_end_game(t_game_data *mlx);
 void	ft_free_map_struct(t_map_data *map);
-void	ft_init_game_struct(t_game_data *game, t_map_data **map);
 
 // ft_init_map.c
 int		ft_init_map(t_map_data *map, char *map_file);

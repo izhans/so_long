@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:16:34 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 20:41:36 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:54:40 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_validate_flood_fill(t_map_data *map)
 	ft_flood_fill(&map_copy, map->player_row, map->player_col);
 	ft_free_str_array(map_copy.content);
 	return (map_copy.exit == 0 && map_copy.player == 0
-		&& map_copy.collectionable == 0);
+		&& map_copy.collectible == 0);
 }
 
 /**
@@ -41,7 +41,7 @@ static int	ft_make_map_copy(t_map_data	*map, t_map_data *map_copy)
 
 	map_copy->exit = map->exit;
 	map_copy->player = map->player;
-	map_copy->collectionable = map->collectionable;
+	map_copy->collectible = map->collectible;
 	map_copy->height = map->height;
 	map_copy->width = map->width;
 	i = 0;
@@ -75,7 +75,7 @@ static void	ft_flood_fill(t_map_data *map, int row, int col)
 		|| map->content[row][col] == MAP_VISITED)
 		return ;
 	if (map->content[row][col] == MAP_COLLECTIBLE)
-		map->collectionable--;
+		map->collectible--;
 	if (map->content[row][col] == MAP_EXIT)
 		map->exit--;
 	if (map->content[row][col] == MAP_PLAYER)

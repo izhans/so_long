@@ -5,12 +5,12 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 VPATH = src/:
 
-SRC	=	ft_validate_map.c \
-		so_long.c \
-		utils.c \
+SRC	=	so_long.c \
 		ft_flood_fill.c \
 		ft_init_map.c \
-		sprite_utils.c
+		ft_validate_map.c \
+		sprite_utils.c \
+		utils.c \
 
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))

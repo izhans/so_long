@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 19:35:08 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/12 22:54:40 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:54:40 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_validate_outer_walls(t_map_data *map);
 int	ft_validate_map(t_map_data *map)
 {
 	if (ft_validate_content(map) || map->exit != 1
-		|| map->player != 1 || map->collectionable < 1)
+		|| map->player != 1 || map->collectible < 1)
 		return (ft_print_error(ERROR_MAP_CONTENT), 1);
 	if (ft_validate_outer_walls(map))
 		return (ft_print_error(ERROR_MAP_NOT_SURROUNDED_BY_WALLS), 1);
@@ -56,7 +56,7 @@ static int	ft_validate_content(t_map_data *map)
 				ft_set_player_position(map, i, j);
 			}
 			else if (map->content[i][j] == MAP_COLLECTIBLE)
-				map->collectionable++;
+				map->collectible++;
 			j++;
 		}
 		i++;

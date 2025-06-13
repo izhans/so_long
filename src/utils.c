@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:51:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 20:30:26 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:58:22 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ void	ft_print_error(char *error_msg)
 {
 	printf("Error\n");
 	printf("%s\n", error_msg);
+}
+
+void	ft_init_game_struct(t_game_data *game, t_map_data **map)
+{
+	game->map = *map;
+	game->mlx_window = NULL;
+	game->movs = 0;
+	game->xpm_collectible = NULL;
+	game->xpm_exit = NULL;
+	game->xpm_floor = NULL;
+	game->xpm_player = NULL;
+	game->xpm_wall = NULL;
+	game->mlx_instance = mlx_init();
+	if (game->mlx_instance == NULL)
+		ft_end_game(game);
 }
 
 int	ft_end_game(t_game_data *mlx)
@@ -47,20 +62,4 @@ void	ft_free_map_struct(t_map_data *map)
 		return ;
 	ft_free_str_array(map->content);
 	free(map);
-}
-
-void	ft_init_game_struct(t_game_data *game, t_map_data **map)
-{
-	game->map = *map;
-	game->mlx_window = NULL;
-	game->movs = 0;
-	game->sprite_side = SPRITE_SIDE_PIXELS;
-	game->xpm_collectible = NULL;
-	game->xpm_exit = NULL;
-	game->xpm_floor = NULL;
-	game->xpm_player = NULL;
-	game->xpm_wall = NULL;
-	game->mlx_instance = mlx_init();
-	if (game->mlx_instance == NULL)
-		ft_end_game(game);
 }
