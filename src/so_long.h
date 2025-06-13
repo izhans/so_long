@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:46 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 21:58:31 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:27:31 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_game_data
 	void		*mlx_instance;
 	void		*mlx_window;
 	t_map_data	*map;
+	int			sprite_side;
 	void		*xpm_exit;
 	void		*xpm_floor;
 	void		*xpm_player;

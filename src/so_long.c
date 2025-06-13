@@ -6,12 +6,13 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:50:50 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 21:54:40 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:34:12 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
+// !!!! 
+// TODO gestionar si se sube la mlx o no para la evaluacion y el MAKEFILE
 void	ft_handle_max_map_size(t_game_data *game);
 int		ft_handle_key(int keysym, t_game_data *game);
 void	ft_paint_map(t_game_data *game);
@@ -93,7 +94,7 @@ void	ft_move(t_map_data *map, int row, int col, t_game_data *game)
 	else if (tile == MAP_EXIT && map->collectible == 0)
 		ft_end_game(game);
 	game->movs++;
-	printf("movs %d\n", game->movs);
+	ft_printf("movs %d\n", game->movs);
 }
 
 void	ft_paint_map(t_game_data *game)

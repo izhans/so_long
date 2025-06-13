@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 23:12:25 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/13 21:54:24 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:27:02 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void	ft_open_xpms(t_game_data *game)
 {
 	game->xpm_exit = mlx_xpm_file_to_image(game->mlx_instance, SPRITE_EXIT,
-			SPRITE_SIDE_PIXELS, SPRITE_SIDE_PIXELS);
+			&game->sprite_side, &game->sprite_side);
 	game->xpm_collectible = mlx_xpm_file_to_image(game->mlx_instance,
-			SPRITE_COLLECTIBLE, SPRITE_SIDE_PIXELS, SPRITE_SIDE_PIXELS);
+			SPRITE_COLLECTIBLE, &game->sprite_side, &game->sprite_side);
 	game->xpm_player = mlx_xpm_file_to_image(game->mlx_instance, SPRITE_PLAYER,
-			SPRITE_SIDE_PIXELS, SPRITE_SIDE_PIXELS);
+			&game->sprite_side, &game->sprite_side);
 	game->xpm_wall = mlx_xpm_file_to_image(game->mlx_instance, SPRITE_WALL,
-			SPRITE_SIDE_PIXELS, SPRITE_SIDE_PIXELS);
+			&game->sprite_side, &game->sprite_side);
 	game->xpm_floor = mlx_xpm_file_to_image(game->mlx_instance, SPRITE_FLOOR,
-			SPRITE_SIDE_PIXELS, SPRITE_SIDE_PIXELS);
+			&game->sprite_side, &game->sprite_side);
 	if (game->xpm_exit == NULL || game->xpm_collectible == NULL
 		|| game->xpm_player == NULL || game->xpm_wall == NULL
 		|| game->xpm_floor == NULL)

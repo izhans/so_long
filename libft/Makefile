@@ -10,6 +10,18 @@ GNL_SRCS = \
 			get_next_line_utils.c
 GNL_OBJS = $(GNL_SRCS:.c=.o)
 
+# ft_printf
+FT_PRINTF_FOLDER = ft_printf/
+FT_PRINTF_SRCS = \
+			ft_printf.c \
+			ft_putaddr.c \
+			ft_putchar.c \
+			ft_putnbr_hex.c \
+			ft_putnbr.c \
+			ft_putstr.c \
+			ft_putunbr.c
+FT_PRINTF_OBJS = $(FT_PRINTF_SRCS:.c=.o)
+
 # Math
 MATH_FOLDER = math/
 MATH_SRCS = \
@@ -96,7 +108,7 @@ WRITE_SRCS = \
 			ft_putstr.c
 WRITE_OBJS = $(WRITE_SRCS:.c=.o)
 
-OBJ = $(GNL_OBJS) $(MATH_OBJS) $(LISTS_OBJS) $(CHAR_OBJS) $(STRING_OBJS) $(MEMORY_OBJS) $(PARSE_OBJS) $(WRITE_OBJS)
+OBJ = $(GNL_OBJS) $(FT_PRINTF_OBJS) $(MATH_OBJS) $(LISTS_OBJS) $(CHAR_OBJS) $(STRING_OBJS) $(MEMORY_OBJS) $(PARSE_OBJS) $(WRITE_OBJS)
 
 # Rules
 .PHONY: all clean fclean re bonus
@@ -109,6 +121,9 @@ $(NAME): libft.h $(OBJ)
 	ar -r $(NAME) $(OBJ)
 
 # Compiles .c files into .o files
+$(FT_PRINTF_OBJS): $(addprefix $(FT_PRINTF_FOLDER), $(FT_PRINTF_SRCS))
+	$(CC) $(FLAGS) -c $(addprefix $(FT_PRINTF_FOLDER), $(FT_PRINTF_SRCS))
+
 $(GNL_OBJS): $(addprefix $(GNL_FOLDER), $(GNL_SRCS))
 	$(CC) $(FLAGS) -c $(addprefix $(GNL_FOLDER), $(GNL_SRCS))
 
