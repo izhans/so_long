@@ -1,0 +1,13 @@
+# maps info
+## invalid maps
+- map1.ber: unreachable exit and collectible
+- map2.ber: non rectangular map
+- map3.ber: map without exit
+- map4.ber: unreachable exit
+- map5.ber: unreacheable collectibles
+- map6.ber: no collectibles
+- map7.ber: no player
+- map8.ber: multiple players
+- map9.ber: multiple exits
+- map10: map without .ber extension
+- map11.ber: map file without permissions (open() fail)
