@@ -15,9 +15,7 @@ SRC	=	so_long.c \
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
-MLX_DIR = mlx_linux
-
-MLX	=	$(MLX_DIR)/libmlx_Linux.a
+MLX	=	mlx_linux/libmlx_Linux.a
 LIBFT = libft/libft.a
 
 MLX_OBJ =	-I/usr/include -Imlx_linux -O3
@@ -32,10 +30,10 @@ $(NAME): $(LIBFT) $(MLX) $(OBJ_DIR) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(MLX_LINK) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-	make -C libft
+	make -C $(dir $(LIBFT))
 
 $(MLX):
-	make -C $(MLX_DIR)
+	make -C $(dir $(MLX))
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -46,10 +44,12 @@ $(OBJ_DIR)/%.o: %.c
 
 clean:
 	make -C $(dir $(LIBFT)) clean
+	make -C $(dir $(MLX)) clean
 	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	make -C $(dir $(LIBFT)) fclean
+	make -C $(dir $(MLX)) clean
 	rm -f $(NAME)
 
 re: fclean all
